@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="zh-TW" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🛶 漂流教室：孟加拉冒險解謎</title>
+  <style>
+        body { box-sizing: border-box; }
+        html, body { height: 100%; margin: 0; padding: 0; }
+        body { 
+            font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif; 
+            background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+            display: flex; justify-content: center; align-items: center;
+            padding: 20px; width: 100%; overflow-x: hidden;
+        }
+        .main-wrapper {
+            width: 100%; height: 100%; display: flex;
+            justify-content: center; align-items: center; overflow-y: auto;
+        }
+        .container { 
+            background: white; padding: 30px; border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+            max-width: 650px; width: 100%; 
+            border-top: 12px solid #00796b;
+            margin: 20px auto;
+        }
+        h1 { color: #004d40; text-align: center; margin-top: 0; font-size: 1.8em; }
+        .level { display: none; }
+        .level.active { display: block; animation: fadeIn 0.5s; }
+        .story-text { font-style: italic; color: #555; border-bottom: 1px dashed #b2dfdb; padding-bottom: 10px; margin-bottom: 15px; }
+        .task-box { 
+            background: #e0f7fa; border-left: 5px solid #00acc1; 
+            padding: 20px; margin-bottom: 25px; font-size: 1em;
+            line-height: 1.6; border-radius: 5px;
+        }
+        .task-box b { color: #00796b; }
+        .check-list-section { margin-top: 15px; border-top: 1px solid #b2dfdb; padding-top: 10px; }
+        .check-list-title { font-weight: bold; color: #004d40; display: block; margin-top: 15px; margin-bottom: 5px; background: #b2dfdb; padding: 2px 10px; border-radius: 4px; }
+        .task-list { list-style-type: none; padding-left: 0; margin-top: 5px; }
+        .task-list li { margin-bottom: 8px; padding-left: 28px; position: relative; font-size: 0.95em; }
+        .task-list li::before { content: "[ ]"; position: absolute; left: 0; color: #00796b; font-family: monospace; font-weight: bold; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #555; }
+        input[type="text"] { 
+            width: 100%; padding: 12px; margin: 10px 0; 
+            border: 2px solid #ddd; border-radius: 8px; 
+            box-sizing: border-box; font-size: 1.1em;
+        }
+        button { 
+            background: #00897b; color: white; border: none; 
+            padding: 14px 30px; border-radius: 8px; cursor: pointer; 
+            width: 100%; font-size: 1.1em; transition: all 0.3s; font-weight: bold;
+        }
+        button:hover { background: #00695c; transform: translateY(-2px); }
+        .error { 
+            color: #e74c3c; font-weight: bold; margin-top: 10px; 
+            display: none; text-align: center; background: #fee;
+            padding: 10px; border-radius: 5px;
+        }
+        .progress { 
+            text-align: center; color: #7f8c8d; margin-bottom: 25px; 
+            font-weight: bold; font-size: 1.1em; background: #ecf0f1;
+            padding: 10px; border-radius: 8px;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+ </head>
+ <body>
+  <div class="main-wrapper">
+   <div class="container">
+    <h1 id="page-title">🛶 漂流教室：孟加拉冒險解謎</h1>
+    <div id="progress" class="progress">進度：抵達孟加拉</div>
+
+    <div id="level1" class="level active">
+     <div class="story-text">你們剛抵達南亞的孟加拉，窗外卻下起滂沱大雨。嚮導指著遠方沒入水中的農田說：「雨季來了，我們的國家正在消失...」</div>
+     <div class="task-box">為了評估災情，請閱讀<b>第一段</b>，<b>圈出孟加拉雨季淹水的比例內容。</b></div>
+     <label for="ans1">調查報告：淹水的國土比例為何？</label>
+     <input type="text" id="ans1" placeholder="例如：one half">
+     <button type="button" onclick="checkLevel(1, 'one third')">🔍 送出調查數據</button>
+     <p id="err1" class="error">❌ 調查有誤！請檢查第一段第 2-3 行的比例數據！</p>
+    </div>
+
+    <div id="level2" class="level">
+     <div class="story-text">看著被洪水阻斷的校舍，建築師 Rezwan 拿出了一張草圖：「既然學生過不來，我們就讓教室開過去！」</div>
+     <div class="task-box">為了建造這艘神奇的船，請閱讀<b>第二段</b>，<b>找出船隻設計名稱、支撐結構與電力來源。</b></div>
+     <label>1. 船隻基底的傳統設計名稱：</label>
+     <input type="text" id="ans2_1" placeholder="四個英文字">
+     <label>2. 抗風雨的強韌支撐結構：</label>
+     <input type="text" id="ans2_2" placeholder="m____ b____">
+     <label>3. 供應船上能源的頂部設施：</label>
+     <input type="text" id="ans2_3" placeholder="s____ p____">
+     <button type="button" onclick="checkLevel2()">🛠️ 提交造船規格</button>
+     <p id="err2" class="error">❌ 規格不符，船隻會撐不住！請檢查第二段內容！</p>
+    </div>
+
+    <div id="level3" class="level">
+     <div class="story-text">船隻完工了！你們走入艙內，發現這裡竟然具備和現代學校一樣的先進科技。</div>
+     <div class="task-box">請檢查<b>第二段</b>的設備清單，<b>找出船上的電腦具備什麼功能，讓它能與世界連結？</b></div>
+     <input type="text" id="ans3" placeholder="一個英文字">
+     <button type="button" onclick="checkLevel(3, 'Internet')">📡 開啟網路連線</button>
+     <p id="err3" class="error">❌ 連線失敗！請檢查第二段第 9 行提到的網路設備。</p>
+    </div>
+
+    <div id="level4" class="level">
+     <div class="story-text">村長焦急地在碼頭踱步，他想知道水上學校每週能服務多少學生。</div>
+     <div class="task-box">請查看<b>第二段與第三段</b>，找出數據並<b>計算：(每班人數 ÷ 每場時數) + 每週天數 = ？</b></div>
+     <input type="text" id="ans4" placeholder="請輸入運算結果">
+     <button type="button" onclick="checkLevel(4, '16')">📝 回報村長數據</button>
+     <p id="err4" class="error">❌ 數字對不起來！提示：(30 ÷ 3) + 6</p>
+    </div>
+
+    <div id="level5" class="level">
+     <div class="story-text">船隻緩緩靠岸，孩子們興奮地跳上船。除了英文數學，他們還必須學習守護家園的知識。</div>
+     <div class="task-box">請閱讀<b>第三段</b>，<b>找出學生研讀的兩個環境議題內容，以及晚上的學習提燈。</b></div>
+     <label>1. 研讀的議題 (複數型，加逗號空格)：</label>
+     <input type="text" id="ans5_1" placeholder="例如：a, b">
+     <label>2. 晚上使用的太陽能提燈：</label>
+     <input type="text" id="ans5_2" placeholder="s____ l____">
+     <button type="button" onclick="checkLevel5()">📘 完成課程準備</button>
+     <p id="err5" class="error">❌ 課表寫錯了！議題是 b... 和 w...，提燈是 s... l...</p>
+    </div>
+
+    <div id="level6" class="level">
+     <div class="story-text">太陽西下，水上學校開始了成人班。村民們正在學習如何管理所得，改善生活。</div>
+     <div class="task-box">請閱讀<b>第四段</b>末尾，<b>找出學習財務管理是為了讓村民能更好的做什麼？(3個字)</b></div>
+     <input type="text" id="ans6" placeholder="請填寫 3 個英文字">
+     <button type="button" onclick="checkLevel(6, 'manage their money')">💰 完成財務訓練</button>
+     <p id="err6" class="error">❌ 語意不對，請看第四段最後一行最後三個字。</p>
+    </div>
+
+    <div id="level7" class="level">
+     <div class="task-box">
+       🎉 冒險成功！你們成功將教育帶回了洪水淹沒的小鎮。<br>
+       <b>請全組翻開課本，確認以下筆記已完成，再請老師簽名領取勳章！</b>
+
+       <div class="check-list-section">
+         <span class="check-list-title">第1段：災情掃描</span>
+         <ul class="task-list">
+           <li>淹水比例：圈出 <b>Around one third</b> 並在旁邊註記「1/3」。</li>
+           <li>洪水問題：用螢光筆畫出 <b>roads to get blocked</b> (道路阻塞) 與 <b>schools to shut their doors</b> (學校關閉)。</li>
+         </ul>
+
+         <span class="check-list-title">第2段：船隻規格</span>
+         <ul class="task-list">
+           <li>結構零件：圈出 <b>noka</b>、<b>metal beams</b> 並寫下中文「傳統木船」、「金屬樑」。</li>
+           <li>電力來源：圈出 <b>solar panels</b> 並在下方標註「太陽能板」。</li>
+         </ul>
+
+         <span class="check-list-title">第3段：課程細節</span>
+         <ul class="task-list">
+           <li>學習時間：找出 <b>lasts three hours</b>，標記「上課持續三小時」。</li>
+           <li>環境議題：找到 <b>biodiversity</b> 與 <b>water pollution</b> 兩組字串，分別標示「生物多樣性」和「水污染」。</li>
+         </ul>
+
+         <span class="check-list-title">第4段：實用訓練</span>
+         <ul class="task-list">
+           <li>用括號 <b>[ ]</b> 標記出三項成人課程：<b>nutrition</b> (營養)、<b>health and hygiene</b> (衛生)、<b>human rights</b> (人權)。</li>
+         </ul>
+
+         <span class="check-list-title">Paragraph 5：計畫影響力</span>
+         <ul class="task-list">
+           <li>關鍵動詞：在 <b>rise above</b> 寫上「戰勝/克服」，在 <b>overcome</b> 寫上「戰勝/克服」。</li>
+         </ul>
+       </div>
+     </div>
+     <div style="text-align: center;">
+       <h2 style="color: #27ae60; font-size: 2em; margin-bottom: 20px;">🔓 脫逃成功！</h2>
+       <button onclick="location.reload()">🔄 再次開啟冒險</button>
+     </div>
+    </div>
+
+   </div>
+  </div>
+
+  <script>
+    function checkLevel(lvl, correct) {
+        let input = document.getElementById('ans' + lvl).value.trim().toLowerCase();
+        let error = document.getElementById('err' + lvl);
+        if (input === correct.toLowerCase()) {
+            goNext(lvl);
+        } else {
+            error.style.display = 'block';
+            setTimeout(() => error.style.display = 'none', 3000);
+        }
+    }
+
+    function checkLevel2() {
+        let a1 = document.getElementById('ans2_1').value.trim().toLowerCase();
+        let a2 = document.getElementById('ans2_2').value.trim().toLowerCase();
+        let a3 = document.getElementById('ans2_3').value.trim().toLowerCase();
+        if (a1 === 'noka' && a2 === 'metal beams' && a3 === 'solar panels') {
+            goNext(2);
+        } else {
+            document.getElementById('err2').style.display = 'block';
+            setTimeout(() => document.getElementById('err2').style.display = 'none', 3000);
+        }
+    }
+
+    function checkLevel5() {
+        let a1 = document.getElementById('ans5_1').value.trim().toLowerCase();
+        let a2 = document.getElementById('ans5_2').value.trim().toLowerCase();
+        if (a1 === 'biodiversity, water pollution' && a2 === 'solar lanterns') {
+            goNext(5);
+        } else {
+            document.getElementById('err5').style.display = 'block';
+            setTimeout(() => document.getElementById('err5').style.display = 'none', 3000);
+        }
+    }
+
+    function goNext(current) {
+        document.getElementById('level' + current).classList.remove('active');
+        document.getElementById('level' + (current + 1)).classList.add('active');
+        const progressText = ["抵達孟加拉", "設計教室船", "連結數位世界", "計算服務量", "準備環境課程", "改善村民生活", "解鎖成功"];
+        document.getElementById('progress').textContent = `進度：${progressText[current]}`;
+        if (current === 6) document.getElementById('progress').style.display = 'none';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+ </body>
+</html>
